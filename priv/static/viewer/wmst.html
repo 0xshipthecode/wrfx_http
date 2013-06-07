@@ -7,26 +7,33 @@
     <title>wrfx_http app test</title>
     <link rel="stylesheet" href="theme/default/style.css" type="text/css">
     <link rel="stylesheet" href="style.css" type="text/css">
-    <script src="js/OpenLayers.js"></script>
+    <script src="lib/OpenLayers.js"></script>
     <script type="text/javascript">
-        var map, ia_wms;
+        var map, ia_wms, my_wms;
         function init(){
             map = new OpenLayers.Map('map');
 
             var ol_wms = new OpenLayers.Layer.WMS( "OpenLayers WMS",
-                "http://vmap0.tiles.osgeo.org/wms/vmap0?", {layers: 'basic'} );
+                "http://vmap0.tiles.osgeo.org/wms/vmap0?", {layers: 'basic'});
 
             var jpl_wms = new OpenLayers.Layer.WMS( "NASA Global Mosaic",
-                "http://t1.hypercube.telascience.org/cgi-bin/landsat7", 
-                {layers: "landsat7"});
+                "http://t1.hypercube.telascience.org/cgi-bin/landsat7", {layers: "landsat7"});
 
-            ia_wms = new OpenLayers.Layer.WMS("Nexrad","http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r-t.cgi?",{layers:"nexrad-n0r-wmst",transparent:true,format:'image/png',time:"2005-08-29T13:00:00Z"});
+            ia_wms = new OpenLayers.Layer.WMS("Nexrad","http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r-t.cgi?",
+	              {layers:"nexrad-n0r-wmst",transparent:true,format:'image/png',time:"2005-08-29T13:00:00Z"});
+
+	    var my_wms = new OpenLayers.Layer.WMS("wrfx", "http://localhost:8080/wms?",
+	              {layers:"T2", transparent:false, format:'image/png',time:"2013-006-04T09:00:00Z",
+	               bbox:"-108.61057,37.180466,-102.38943,40.781265", width:219, height:165},
+	              {isBaseLayer:false});
 
             jpl_wms.setVisibility(false);
+	    ia_wms.setVisibility(false);
 
-            map.addLayers([ol_wms, jpl_wms, ia_wms]);
+            map.addLayers([ol_wms, jpl_wms, ia_wms, my_wms]);
             map.addControl(new OpenLayers.Control.LayerSwitcher());
-            map.zoomToExtent(new OpenLayers.Bounds(-100.898437,22.148438,-78.398437,39.726563));
+/*            map.zoomToExtent(new OpenLayers.Bounds(-100.898437,22.148438,-78.398437,39.726563)); */
+            map.zoomToExtent(new OpenLayers.Bounds(-108.61057, 37.180466, -102.38943, 40.781265));
         }
         function update_date() {
             var string = OpenLayers.Util.getElement('year').value + "-" +
@@ -48,7 +55,8 @@
             Shows the use of the layer WMS-T (time) layer</a>
         </p>
     <input size="4" type='text' id='year' value="2005" onchange="update_date()"/>-<input size="2" type="text" id="month" value="08" onchange="update_date()"/>-<input size="2" type="text" id="day" value="29" onchange="update_date()" />T<input type="text" size="2" id="hour" value="13" onchange="update_date()" />:<input type="text" size="2" id="minute" value="00" onchange="update_date()" />:00
-    <div id="map" class="smallmap"></div>
+<!--    <div id="map" class="smallmap"></div>-->
+    <div id="map" style="width: 800px; height: 600px"></div>
     <div id="docs">
         <p>WMS-T example: update the times, and the radar image will change.
         Uses Layer.mergeNewParams to update the date element with the strings
