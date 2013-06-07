@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding="ISO-8859-1" standalone="no" ?>
+<!DOCTYPE WMT_MS_Capabilities SYSTEM "http://schemas.opengis.net/wms/1.1.1/WMS_MS_Capabilities.dtd"
+ [
+ <!ELEMENT VendorSpecificCapabilities EMPTY>
+ ]>  <!-- end of DOCTYPE declaration -->
+
+<WMT_MS_Capabilities version="1.1.1">
+
+<Service>
+  <Name>OGC:WMS</Name>
+  <Title>Fire Weather Map Service</Title>
+  <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://vmap0.tiles.osgeo.org/wms?"/>
+  <ContactInformation>
+  </ContactInformation>
+</Service>
+
+<Capability>
+  <Request>
+    <GetCapabilities>
+      <Format>application/vnd.ogc.wms_xml</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://vmap0.tiles.osgeo.org/wms?"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://vmap0.tiles.osgeo.org/wms?"/></Post>
+        </HTTP>
+      </DCPType>
+    </GetCapabilities>
+    <GetMap>
+      <Format>image/png</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://vmap0.tiles.osgeo.org/wms?"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://vmap0.tiles.osgeo.org/wms?"/></Post>
+        </HTTP>
+      </DCPType>
+    </GetMap>
+  </Request>
+  <Exception>
+    <Format>application/vnd.ogc.se_xml</Format>
+    <Format>application/vnd.ogc.se_inimage</Format>
+    <Format>application/vnd.ogc.se_blank</Format>
+  </Exception>
+  <VendorSpecificCapabilities />
+  <Layer>
+    <Title>Parent layer defining common properties</Title>
+    <Abstract>Parent layer defining common properties</Abstract>
+    <SRS>EPSG:4326</SRS>
+    <LatLonBoundingBox minx="-108.61057" miny="37.180466" maxx="-102.38943" maxy="40.781265" />
+    <Layer queryable="0" opaque="1" cascaded="0" noSubsets="1" fixedWidth="219" fixedHeight="165">
+      <Name>Temp</Name>
+      <Title>Temperature at 2m height</Title>
+      <Abstract>The T2 variable from the wrfout file generated in the WRF forecast.</Abstract>
+    </Layer>
+  </Layer>
+</Capability>
+</WMT_MS_Capabilities>
