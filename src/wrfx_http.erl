@@ -42,7 +42,7 @@ init(_Args) ->
 				       [{"/field/:riak_bucket/:riak_key", http_handler_field, []},
 
 						% serve up html/css/js content of viewer app
-					{"/map_viewer/[...]", cowboy_static,
+					{"/viewer/[...]", cowboy_static,
 					 [
 					  {directory, {priv_dir, wrfx_http, [<<"static/viewer">>]}},
 					  {mimetypes, {fun mimetypes:path_to_mimes/2, default}}
