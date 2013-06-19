@@ -12,9 +12,9 @@ init({tcp, http}, Req, _Opts) ->
     {ok, Req, undefined_state}.
  
 handle(Req, State) ->
-    {Bucket, _} = cowboy_req:binding("riak_bucket", Req),
-    {Key, _} = cowboy_req:binding("riak_key", Req),
-    io:format("request was ~p~n", [WmsRq]),
+    {Bucket, _} = cowboy_req:binding(riak_bucket, Req),
+    {Key, _} = cowboy_req:binding(riak_key, Req),
+    io:format("bucket was ~p key was ~p~n", [Bucket, Key]),
     {ok, Req2} = cowboy_req:reply(200,
 				  [{<<"content-type">>, <<"text/html">>}],
 				  <<"<html><body>Hi</body></html>">>, Req),
