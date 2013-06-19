@@ -39,9 +39,9 @@ init(_Args) ->
     Dispatch = cowboy_router:compile([
 				      {'_', 
 						% WMS tile server resource
-				       [{"/wms/[...]", http_handler_wms, []},
+				       [{"/field/:riak_bucket/:riak_key", http_handler_field, []},
 
-						% serve up images for OpenLayers.js
+						% serve up html/css/js content of viewer app
 					{"/map_viewer/[...]", cowboy_static,
 					 [
 					  {directory, {priv_dir, wrfx_http, [<<"static/viewer">>]}},
