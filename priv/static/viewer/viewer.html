@@ -5,9 +5,10 @@
     <title>Fire Weather Forecast viewer</title>
 
 	<link href="css/flick/jquery-ui-1.10.3.custom.css" rel="stylesheet">
-    <script src="js/jquery-1.9.1.js"></script>
+	<link href="css/viewer.css" rel="stylesheet">
+	<script src="js/jquery-1.9.1.js"></script>
 	<script src="js/jquery-ui-1.10.3.custom.js"></script>
-    <script src="js/viewer.js"></script>
+	<script src="js/viewer.js"></script>
 
 </head>
 <body>
@@ -24,7 +25,56 @@
 		<li><a href="#tabs-fm10">10hr Fuel moisture</a></li>
 		<li><a href="#tabs-fm100">100hr Fuel moisture</a></li>
 	</ul>
-	<div id="tabs-t2"></div>
+	<div id="tabs-t2">
+
+	  <center>
+	    <img id="t2_main"
+		 src="http://localhost:8080/field/colorado_2km_op_wrf_48hr_run/T2_2013-06-04_00:00:00"
+		 width="1000" height="600"> </img>
+
+	    <table>
+	      <tr>
+		<td>
+		  <center><p class="img_header">6/3/2013 18:00</p></center>
+		  <img class="t2_preload"
+		       src="http://localhost:8080/field/colorado_2km_op_wrf_48hr_run/T2_2013-06-04_00:00:00"
+		       width="100" height="60"></img>
+		</td>
+		<td>
+		  <center><p class="img_header">6/3/2013 20:00</p></center>
+		  <img class="t2_preload"
+		       src="http://localhost:8080/field/colorado_2km_op_wrf_48hr_run/T2_2013-06-04_02:00:00"
+		       width="100" height="60"></img>
+		</td>
+		<td>
+		  <p class="img_header">6/3/2013 22:00</p>
+		  <img class="t2_preload"
+		       src="http://localhost:8080/field/colorado_2km_op_wrf_48hr_run/T2_2013-06-04_04:00:00"
+		       width="100" height="60"></img>
+		</td>
+		<td>
+		  <p class="img_header">6/4/2013 00:00</p>
+		  <img class="t2_preload"
+		       src="http://localhost:8080/field/colorado_2km_op_wrf_48hr_run/T2_2013-06-04_06:00:00"
+		       width="100" height="60"></img>
+		</td>
+		<td>
+		  <p class="img_header">6/4/2013 02:00</p>
+		  <img class="t2_preload"
+		       src="http://localhost:8080/field/colorado_2km_op_wrf_48hr_run/T2_2013-06-04_08:00:00"
+		       width="100" height="60"></img>
+		</td>
+		<td>
+		  <p class="img_header">6/4/2013 04:00</p>
+		  <img class="t2_preload"
+		       src="http://localhost:8080/field/colorado_2km_op_wrf_48hr_run/T2_2013-06-04_10:00:00"
+		       width="100" height="60"></img>
+		</td>
+	      </tr>
+	    </table>
+	  </center>
+	</div>
+
 	<div id="tabs-psfc"></div>
 	<div id="tabs-rh"></div>
 	<div id="tabs-fm1"></div>

@@ -9,17 +9,30 @@
 -export([terminate/3]).
  
 init({tcp, http}, Req, _Opts) ->
-    {ok, Req, undefined_state}.
+    {ok, PID} = riakc_pb_socket:start_link("127.0.0.1", 10017),
+    {ok, Req, {riak_pid, PID}}.
  
-handle(Req, State) ->
+handle(Req, State = {riak_pid, PID}) ->
     {Bucket, _} = cowboy_req:binding(riak_bucket, Req),
     {Key, _} = cowboy_req:binding(riak_key, Req),
-    io:format("bucket was ~p key was ~p~n", [Bucket, Key]),
-    {ok, Req2} = cowboy_req:reply(200,
-				  [{<<"content-type">>, <<"text/html">>}],
-				  <<"<html><body>Hi</body></html>">>, Req),
-    {ok, Req2, State}.
+
+    % retrieve the png image from the backend RIAK server
+    case riakc_pb_socket:get(PID, Bucket, Key) of
+	{ok, O} ->
+	    {ok, Req2} = cowboy_req:reply(200,
+					  [{<<"content-type">>, <<"image/png">>}],
+					  riakc_obj:get_value(O),
+					  Req),
+	    {ok, Req2, State};
+	_ ->
+	    {ok, Req2} = cowboy_req:reply(200,
+					  [{<<"content-type">>, <<"text/html">>}],
+					  <<"<html><body>Sorry, no such field is available</body></html>">>,
+					  Req),
+	    {ok, Req2, State}
+    end.
 	    
  
-terminate(_Reason, _Req, _State) ->
+terminate(_Reason, _Req, {riak_pid, PID}) ->
+    riakc_pb_socket:stop(PID),
     ok.
