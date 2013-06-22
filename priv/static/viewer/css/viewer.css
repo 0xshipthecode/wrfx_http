@@ -4,7 +4,12 @@ p.img_header {
     font-size: 50%;
 }
 
-p {
+p.copyright {
     font-family: sans-serif;
     font-size: small;
+}
+
+#fig_text {
+    font-family: sans-serif;
+    font-size: large;
 }
