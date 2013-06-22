@@ -20,7 +20,7 @@ handle(Req, State = {riak_pid, PID}) ->
     case riakc_pb_socket:get(PID, Bucket, Key) of
 	{ok, O} ->
 	    {ok, Req2} = cowboy_req:reply(200,
-					  [{<<"content-type">>, <<"image/png">>}],
+					  [{<<"content-type">>, content_type(Key)}],
 					  riakc_obj:get_value(O),
 					  Req),
 	    {ok, Req2, State};
@@ -36,3 +36,10 @@ handle(Req, State = {riak_pid, PID}) ->
 terminate(_Reason, _Req, {riak_pid, PID}) ->
     riakc_pb_socket:stop(PID),
     ok.
+
+
+
+content_type(<<"current_valid_ts">>) ->
+    <<"text/plain">>;
+content_type(_K) ->
+    <<"image/png">>.

@@ -3,3 +3,8 @@ p.img_header {
     color: blue;
     font-size: 50%;
 }
+
+p {
+    font-family: sans-serif;
+    font-size: small;
+}

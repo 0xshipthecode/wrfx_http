@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Fire Weather Forecast viewer</title>
+    <title>Fire Weather Forecast viewer ALPHA version</title>
 
 	<link href="css/flick/jquery-ui-1.10.3.custom.css" rel="stylesheet">
 	<link href="css/viewer.css" rel="stylesheet">
@@ -13,74 +13,33 @@
 </head>
 <body>
 
-	<h1></h1>
+  <center>
 
-	<h2 class="demoHeaders">Viewer application</h2>
-	<div id="tabs">
-	<ul>
-		<li><a href="#tabs-t2">Temp</a></li>
-		<li><a href="#tabs-psfc">Pressure</a></li>
-		<li><a href="#tabs-rh">Rel. Humidity</a></li>
-		<li><a href="#tabs-fm1">1hr Fuel moisture </a></li>
-		<li><a href="#tabs-fm10">10hr Fuel moisture</a></li>
-		<li><a href="#tabs-fm100">100hr Fuel moisture</a></li>
-	</ul>
-	<div id="tabs-t2">
+    <div id="var_radio">
+      <input type="radio" id="T2_button" name="var_radio" checked="checked" />
+      <label for="T2_button">Temperature</label>
+      <input type="radio" id="RH_button" name="var_radio" />
+      <label for="RH_button">Rel. Humidity</label>
+      <input type="radio" id="FM1_button" name="var_radio" />
+      <label for="FM1_button">1-hr fuel moisture</label>
+      <input type="radio" id="FM10_button" name="var_radio" />
+      <label for="FM10_button">10-hr fuel moisture</label>
+      <input type="radio" id="FM100_button" name="var_radio" />
+      <label for="FM100_button">100-hr fuel moisture</label>
+    </div>
+  
+    <img id="fig_main"
+	 src=""
+	 width="1000" height="550"> </img>
 
-	  <center>
-	    <img id="t2_main"
-		 src="http://localhost:8080/field/colorado_2km_op_wrf_48hr_run/T2_2013-06-04_00:00:00"
-		 width="1000" height="600"> </img>
+    <div id="toolbar" class="ui-widget-header ui-corner-all">
+      <button id="beginning">go to beginning</button>
+      <button id="rewind">rewind</button>
+      <button id="forward">fast forward</button>
+      <button id="end">go to end</button>
+    </div>
 
-	    <table>
-	      <tr>
-		<td>
-		  <center><p class="img_header">6/3/2013 18:00</p></center>
-		  <img class="t2_preload"
-		       src="http://localhost:8080/field/colorado_2km_op_wrf_48hr_run/T2_2013-06-04_00:00:00"
-		       width="100" height="60"></img>
-		</td>
-		<td>
-		  <center><p class="img_header">6/3/2013 20:00</p></center>
-		  <img class="t2_preload"
-		       src="http://localhost:8080/field/colorado_2km_op_wrf_48hr_run/T2_2013-06-04_02:00:00"
-		       width="100" height="60"></img>
-		</td>
-		<td>
-		  <p class="img_header">6/3/2013 22:00</p>
-		  <img class="t2_preload"
-		       src="http://localhost:8080/field/colorado_2km_op_wrf_48hr_run/T2_2013-06-04_04:00:00"
-		       width="100" height="60"></img>
-		</td>
-		<td>
-		  <p class="img_header">6/4/2013 00:00</p>
-		  <img class="t2_preload"
-		       src="http://localhost:8080/field/colorado_2km_op_wrf_48hr_run/T2_2013-06-04_06:00:00"
-		       width="100" height="60"></img>
-		</td>
-		<td>
-		  <p class="img_header">6/4/2013 02:00</p>
-		  <img class="t2_preload"
-		       src="http://localhost:8080/field/colorado_2km_op_wrf_48hr_run/T2_2013-06-04_08:00:00"
-		       width="100" height="60"></img>
-		</td>
-		<td>
-		  <p class="img_header">6/4/2013 04:00</p>
-		  <img class="t2_preload"
-		       src="http://localhost:8080/field/colorado_2km_op_wrf_48hr_run/T2_2013-06-04_10:00:00"
-		       width="100" height="60"></img>
-		</td>
-	      </tr>
-	    </table>
-	  </center>
-	</div>
-
-	<div id="tabs-psfc"></div>
-	<div id="tabs-rh"></div>
-	<div id="tabs-fm1"></div>
-	<div id="tabs-fm10"></div>
-	<div id="tabs-fm100"></div>
-</div>
+    <p>Copyright <a href="http://www.ucdenver.edu">University of Colorado, Denver</a> and <a href="http://www.cs.cas.cz">Institute of Computer Science</a> of the Academy of Sciences of the Czech Republic</p>
     
 </body>
 </html>
