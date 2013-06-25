@@ -20,7 +20,8 @@ handle(Req, State = {riak_pid, PID}) ->
     case riakc_pb_socket:get(PID, Bucket, Key) of
 	{ok, O} ->
 	    {ok, Req2} = cowboy_req:reply(200,
-					  [{<<"content-type">>, content_type(Key)}],
+					  [{<<"content-type">>, content_type(Key)},
+					   {<<"Cache-Control">>, <<"max-age=3600, public">>} ],
 					  riakc_obj:get_value(O),
 					  Req),
 	    {ok, Req2, State};

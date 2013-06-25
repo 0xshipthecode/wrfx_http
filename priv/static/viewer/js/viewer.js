@@ -23,7 +23,10 @@ var current_index = 0;
 var cvts = "";
 
 function update_image() {
-    $("#fig_main").attr("src", field_prefix + "/" + current_var + "_" + cvts[current_index]);
+    /* update main figure space */
+    var img_url=field_prefix + "/" + current_var + "_" + cvts[current_index];
+    $("#fig_main").attr("src", img_url);
+    /* update date/time string */
     dt = moment(cvts[current_index] + " +0000", "YYYY-MM-DD_HH:mm:ss Z");
     $("#fig_text").text(var_table[current_var] + " on " + dt.format());
 }
@@ -39,9 +42,14 @@ $(function() {
 
     /* construct the variable selector buttons */
     $( "#var_radio" ).buttonset();
-    $( "#var_radio" ).click( function() { 
-	current_var = $("#var_radio :radio:checked").attr("id").split("_")[0];
-        update_image(); });
+    $( "#var_radio" ).click( function(event) { 
+	    var new_var = $("#var_radio :radio:checked").attr("id").split("_")[0];
+	    if(new_var != current_var)
+		{
+		    current_var = new_var;
+		    update_image();
+		}
+	});
 
     $( "#beginning" ).button({
 	text: false,
@@ -49,9 +57,10 @@ $(function() {
 	    primary: "ui-icon-seek-start"
 	}
     })
-	.click(function() {
+	.click(function(event) {
 	    current_index = 0;
 	    update_image();
+	    event.preventDefault();
 	});
 
     $( "#rewind" ).button({
@@ -60,9 +69,10 @@ $(function() {
 	    primary: "ui-icon-seek-prev"
 	}
     })
-	.click(function() {
+	.click(function(event) {
 	    current_index = Math.max(current_index - 1, 0);
 	    update_image();
+	    event.preventDefault();
 	});
 	    
     $( "#forward" ).button({
@@ -71,9 +81,10 @@ $(function() {
 	    primary: "ui-icon-seek-next"
 	}
     })
-	.click(function() {
+	.click(function(event) {
 	    current_index = Math.min(current_index + 1, cvts.length - 1);
 	    update_image();
+	    event.preventDefault();
 	});
     
     $( "#end" ).button({
@@ -82,9 +93,10 @@ $(function() {
 	    primary: "ui-icon-seek-end"
 	}
     })
-	.click(function() {
+	.click(function(event) {
 	    current_index = cvts.length - 1;
 	    update_image();
+	    event.preventDefault();
 	});
 
 });
