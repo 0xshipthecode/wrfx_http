@@ -16,13 +16,16 @@ function endsWith(str, suffix) {
 
 /* initial display settings */
 var current_var = "T2";
+var var_table = { "T2" : "Temperature at 2m", "RH" : "Relative Humidity", "RAIN" : "Rain",
+		  "FM1" : "1-hr fuel moisture", "FM10" : "10-hr fuel moisture",
+		  "FM100" : "100-hr fuel moisture" };
 var current_index = 0;
 var cvts = "";
 
 function update_image() {
     $("#fig_main").attr("src", field_prefix + "/" + current_var + "_" + cvts[current_index]);
-    dt = cvts[current_index].split("_");
-    $("#fig_text").text(current_var + " on " + dt[0] + " at " + dt[1]);
+    dt = moment(cvts[current_index] + " +0000", "YYYY-MM-DD_HH:mm:ss Z");
+    $("#fig_text").text(var_table[current_var] + " on " + dt.format());
 }
 
 function trim_cvts(data) {
