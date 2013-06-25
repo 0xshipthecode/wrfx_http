@@ -8,22 +8,31 @@ var field_prefix = "http://localhost:8080/field/colorado_2km_op_wrf_48hr_run";
     field_prefix = doc_loc.substring(0, viewer_ndx) + "/field/fire_danger_operational_v1";
  }());
 
+/* endsWith from http://stackoverflow.com/questions/280634/endswith-in-javascript/2548133#2548133 */
+function endsWith(str, suffix) { 
+   return str.indexOf(suffix, str.length - suffix.length) !== -1;
+}
+
 
 /* initial display settings */
 var current_var = "T2";
 var current_index = 0;
-var tss = "";
+var cvts = "";
 
 function update_image() {
-    $("#fig_main").attr("src", field_prefix + "/" + current_var + "_" + tss[current_index]);
-    dt = tss[current_index].split("_");
+    $("#fig_main").attr("src", field_prefix + "/" + current_var + "_" + cvts[current_index]);
+    dt = cvts[current_index].split("_");
     $("#fig_text").text(current_var + " on " + dt[0] + " at " + dt[1]);
+}
+
+function trim_cvts(data) {
+    return data.split("|").filter(function (elem, ndx, arr) { return endsWith(elem, "00:00"); });
 }
 
 /* a short-hand for $(document).ready( ... ) */
 $(function() {
 
-    $.get(field_prefix + "/current_valid_ts", function(data) { tss = data.split("|"); update_image(); });
+	$.get(field_prefix + "/current_valid_ts", function(data) { cvts = trim_cvts(data); update_image(); });
 
     /* construct the variable selector buttons */
     $( "#var_radio" ).buttonset();
@@ -60,7 +69,7 @@ $(function() {
 	}
     })
 	.click(function() {
-	    current_index = Math.min(current_index + 1, tss.length - 1);
+	    current_index = Math.min(current_index + 1, cvts.length - 1);
 	    update_image();
 	});
     
@@ -71,7 +80,7 @@ $(function() {
 	}
     })
 	.click(function() {
-	    current_index = tss.length - 1;
+	    current_index = cvts.length - 1;
 	    update_image();
 	});
 
