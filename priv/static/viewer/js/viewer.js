@@ -26,7 +26,7 @@ function update_image() {
 }
 
 function trim_cvts(data) {
-    return data.split("|").filter(function (elem, ndx, arr) { return endsWith(elem, "00:00"); });
+    return data.split("|").slice(1).filter(function (elem, ndx, arr) { return endsWith(elem, "00:00"); });
 }
 
 /* a short-hand for $(document).ready( ... ) */
