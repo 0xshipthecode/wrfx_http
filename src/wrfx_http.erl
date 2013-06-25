@@ -42,13 +42,19 @@ init(_Args) ->
 				       [{"/field/:riak_bucket/:riak_key", http_handler_field, []},
 
 						% serve up html/css/js content of viewer app
+					{"/viewer/", cowboy_static,
+					 [
+					  {directory, {priv_dir, wrfx_http, [<<"static/viewer">>]}},
+					  {file, "index.html"},
+					  {mimetypes, {fun mimetypes:path_to_mimes/2, default}}
+					 ]},
 					{"/viewer/[...]", cowboy_static,
 					 [
 					  {directory, {priv_dir, wrfx_http, [<<"static/viewer">>]}},
 					  {mimetypes, {fun mimetypes:path_to_mimes/2, default}}
 					 ]}
-				       ]}
-				     ]),
+					]}]),
+
     %% Name, NbAcceptors, TransOpts, ProtoOpts
     cowboy:start_http(main_http_listener, 100,
 		      [{port, 8080}],
