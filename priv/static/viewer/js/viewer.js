@@ -21,11 +21,27 @@ var var_table = { "T2" : "Temperature at 2m", "RH" : "Relative Humidity", "RAIN"
 		  "FM100" : "100-hr fuel moisture" };
 var current_index = 0;
 var cvts = "";
+var playing = false;
+
+
+function get_image_index(diff) {
+    var ndx = current_index + diff;
+    while(ndx < 0)
+	ndx = ndx + cvts.length;
+    while(ndx > cvts.length - 1)
+	ndx = ndx - cvts.length;
+    return ndx;
+}
+
+
+function get_image_url(diff) {
+    return field_prefix + "/" + current_var + "_" + cvts[get_image_index(diff)];
+}
+
 
 function update_image() {
     /* update main figure space */
-    var img_url=field_prefix + "/" + current_var + "_" + cvts[current_index];
-    $("#fig_main").attr("src", img_url);
+    $("#fig_main").attr("src", get_image_url(0));
     /* update date/time string */
     dt = moment(cvts[current_index] + " +0000", "YYYY-MM-DD_HH:mm:ss Z");
     $("#fig_text").text(var_table[current_var] + " on " + dt.format());
@@ -33,6 +49,21 @@ function update_image() {
 
 function trim_cvts(data) {
     return data.split("|").slice(1).filter(function (elem, ndx, arr) { return endsWith(elem, "00:00"); });
+}
+
+
+function playback_func() {
+    console.log("in playback func");
+    /* make sure we are showing current image */
+    update_image();
+    /* retrieve next image */
+    $.get(get_image_url(1));
+    /* set next image as current */
+    current_index = get_image_index(1);
+    /* schedule this function again if still playing */
+    if(playing) {
+	setTimeout(playback_func, 500);
+    }
 }
 
 /* a short-hand for $(document).ready( ... ) */
@@ -73,8 +104,37 @@ $(function() {
 	    current_index = Math.max(current_index - 1, 0);
 	    update_image();
 	    event.preventDefault();
+	    });
+
+    $( "#play" ).button({
+	text: false,
+	icons: {
+	    primary: "ui-icon-play"
+	}
+    })
+	.click(function(event) {
+		var options;
+		if ( $( this ).text() === "play" ) {
+		    options = {
+			label: "pause",
+			icons: {
+			    primary: "ui-icon-pause"
+			}
+		    };
+		    playing = true;
+		    window.setTimeout(playback_func, 500);
+		} else {
+		    options = {
+			label: "play",
+			icons: {
+			    primary: "ui-icon-play"
+			}
+		    };
+		    playing = false;
+	    }
+	    $( this ).button( "option", options );
+	    event.preventDefault();
 	});
-	    
     $( "#forward" ).button({
 	text: false,
 	icons: {
