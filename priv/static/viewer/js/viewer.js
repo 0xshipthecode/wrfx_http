@@ -18,7 +18,8 @@ function endsWith(str, suffix) {
 var current_var = "T2";
 var var_table = { "T2" : "Temperature at 2m", "RH" : "Relative Humidity", "RAIN" : "Rain",
 		  "FM1" : "1-hr fuel moisture", "FM10" : "10-hr fuel moisture",
-		  "FM100" : "100-hr fuel moisture" };
+		  "FM100" : "100-hr fuel moisture", "F_ROS" : "Rate of spread",
+                  "F_LINEINT2" : "Fireline intensity" };
 var current_index = 0;
 var cvts = "";
 var playing = false;
@@ -45,6 +46,10 @@ function update_image() {
     /* update date/time string */
     dt = moment(cvts[current_index] + " +0000", "YYYY-MM-DD_HH:mm:ss Z");
     $("#fig_text").text(var_table[current_var] + " on " + dt.format());
+    /* ensure caching of images for diffs -1, 1, 2 */
+    $.get(get_image_url(-1));
+    $.get(get_image_url(1));
+    $.get(get_image_url(2));
 }
 
 function trim_cvts(data) {
@@ -56,8 +61,6 @@ function playback_func() {
     console.log("in playback func");
     /* make sure we are showing current image */
     update_image();
-    /* retrieve next image */
-    $.get(get_image_url(1));
     /* set next image as current */
     current_index = get_image_index(1);
     /* schedule this function again if still playing */
@@ -74,7 +77,9 @@ $(function() {
     /* construct the variable selector buttons */
     $( "#var_radio" ).buttonset();
     $( "#var_radio" ).click( function(event) { 
-	    var new_var = $("#var_radio :radio:checked").attr("id").split("_")[0];
+	    var lab = $("#var_radio :radio:checked").attr("id");
+	    var new_var = lab.substring(0, lab.length - 7);
+	    console.log("New var is " + new_var);
 	    if(new_var != current_var)
 		{
 		    current_var = new_var;
