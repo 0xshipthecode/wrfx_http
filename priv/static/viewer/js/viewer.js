@@ -23,7 +23,7 @@ var var_table = { "T2" : "Temperature at 2m", "RH" : "Relative Humidity", "RAIN"
 var current_index = 0;
 var cvts = "";
 var playing = false;
-
+var play_delay_ms = 500;
 
 function get_image_index(diff) {
     var ndx = current_index + diff;
@@ -65,7 +65,7 @@ function playback_func() {
     current_index = get_image_index(1);
     /* schedule this function again if still playing */
     if(playing) {
-	setTimeout(playback_func, 500);
+	setTimeout(playback_func, play_delay_ms);
     }
 }
 
@@ -127,7 +127,7 @@ $(function() {
 			}
 		    };
 		    playing = true;
-		    window.setTimeout(playback_func, 500);
+		    window.setTimeout(playback_func, play_delay_ms);
 		} else {
 		    options = {
 			label: "play",
